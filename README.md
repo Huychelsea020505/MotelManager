@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Motel Management System
 
 Backend REST API demo for managing motel rooms, tenants, invoices, payments, and dashboard reports.
@@ -125,3 +126,6 @@ Bước 3: Chạy Frontend (Vite)
 Mở một terminal mới, di chuyển vào thư mục frontend: cd frontend
 Cài đặt các thư viện: npm install
 Chạy giao diện: npm run dev
+=======
+# MotelManager
+>>>>>>> 73fdcf1fb37b1d75c52081eb79a4d7624c1d37d7
