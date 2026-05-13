@@ -1,7 +1,21 @@
-const API_URL = "http://localhost:8080";
+const ROOM_API_URL = "/api/room";
+const BILLING_API_URL = "/api/billing";
+
+function baseUrlFor(path) {
+  if (
+    path.startsWith("/auth") ||
+    path.startsWith("/dashboard") ||
+    path.startsWith("/invoices") ||
+    path.startsWith("/payments")
+  ) {
+    return BILLING_API_URL;
+  }
+
+  return ROOM_API_URL;
+}
 
 export async function api(path, options = {}) {
-  const response = await fetch(`${API_URL}${path}`, {
+  const response = await fetch(`${baseUrlFor(path)}${path}`, {
     headers: {
       "Content-Type": "application/json",
       ...options.headers,

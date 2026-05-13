@@ -149,8 +149,8 @@ export default function InvoicesPage() {
               {visibleInvoices.map((invoice) => (
                 <tr key={invoice.id}>
                   <td>{invoice.month}</td>
-                  <td>{invoice.room?.name}</td>
-                  <td>{invoice.tenant?.fullName}</td>
+                  <td>{invoice.roomName || invoice.room?.name}</td>
+                  <td>{invoice.tenantName || invoice.tenant?.fullName}</td>
                   <td>{money(invoice.totalAmount)}</td>
                   <td><span className={`badge ${invoice.status?.toLowerCase()}`}>{invoice.status}</span></td>
                   <td>

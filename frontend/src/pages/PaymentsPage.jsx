@@ -37,8 +37,8 @@ export default function PaymentsPage() {
               <tr key={payment.id}>
                 <td>#{payment.id}</td>
                 <td>{payment.invoice?.month}</td>
-                <td>{payment.invoice?.room?.name}</td>
-                <td>{payment.invoice?.tenant?.fullName}</td>
+                <td>{payment.invoice?.roomName || payment.invoice?.room?.name}</td>
+                <td>{payment.invoice?.tenantName || payment.invoice?.tenant?.fullName}</td>
                 <td>{money(payment.amount)}</td>
                 <td>{payment.paidAt ? new Date(payment.paidAt).toLocaleString("vi-VN") : ""}</td>
                 <td>{payment.note || "Không có"}</td>

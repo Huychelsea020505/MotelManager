@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package room;
+
+option java_multiple_files = true;
+option java_package = "com.motel.grpc";
+option java_outer_classname = "RoomProto";
+
+service RoomGrpcService {
+  rpc GetRoomById(RoomRequest) returns (RoomResponse);
+
+  rpc StreamAvailableRooms(Empty) returns (stream RoomResponse);
+}
+
+message Empty {}
+
+message RoomRequest {
+  int64 room_id = 1;
+}
+
+message RoomResponse {
+  int64 id = 1;
+  string room_number = 2;
+  double price = 3;
+  double area = 4;
+  string status = 5;
+  string tenant_name = 6;
+  bool found = 7;
+}

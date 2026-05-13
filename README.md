@@ -1,52 +1,93 @@
-<<<<<<< HEAD
-# Motel Management System
+# Boarding House Manager
 
-Backend REST API demo for managing motel rooms, tenants, invoices, payments, and dashboard reports.
+Backend services and React frontend for managing rooms, tenants, invoices, payments, and dashboard data.
 
-## Technologies
+## Services
 
-- Java 17
-- Micronaut
-- Micronaut Data JPA
-- Hibernate
-- H2 in-memory database
-- Gradle Kotlin DSL
+- `room-service`: Micronaut service on `http://localhost:8080`, gRPC on `9090`
+- `billing-service`: Micronaut service on `http://localhost:8082`
+- `frontend`: Vite React app on `http://localhost:5173`
+- `room-db`: MySQL on host port `3307`
+- `billing-db`: MySQL on host port `3308`
 
-## Run
+## Recommended Run
 
-```bash
-./gradlew run
-```
+Start the backend stack from the project root:
 
-On Windows:
-
-```bash
-gradlew.bat run
-```
-
-The app uses an H2 in-memory database and creates demo data automatically at startup.
-
-Swagger UI is available after startup:
-
-```text
-http://localhost:8080/swagger/views/swagger-ui/index.html
-```
-
-## Run With Docker MySQL
-
-Start MySQL and Adminer:
-
-```bash
+```powershell
 docker compose up -d
 ```
 
-Run the Micronaut app with the Docker database profile:
+Check that the backend is running:
 
-```bash
-gradlew.bat run -Dmicronaut.environments=docker
+```powershell
+docker compose ps
 ```
 
-Database design and sample rows are documented in `docs/database-design.md`.
+Start the frontend in another terminal:
+
+```powershell
+cd frontend
+pnpm dev
+```
+
+Open:
+
+```text
+http://localhost:5173
+```
+
+## Important
+
+Do not run `room-service` with Gradle while the Docker `room-service` container is running. Both use port `9090` for gRPC, so Gradle will fail with:
+
+```text
+Address already in use: bind
+```
+
+If you want to debug `room-service` locally with Gradle, stop the Docker container first:
+
+```powershell
+docker compose stop room-service billing-service
+cd room-service
+.\gradlew.bat run
+```
+
+Or run it on other HTTP and gRPC ports:
+
+```powershell
+cd room-service
+$env:MICRONAUT_SERVER_PORT=8081
+$env:GRPC_SERVER_PORT=9091
+.\gradlew.bat run
+```
+
+When switching between Docker and Gradle, restart `pnpm dev` so Vite reloads its proxy config.
+
+## API
+
+Room service:
+
+```text
+GET    /rooms
+POST   /rooms
+GET    /rooms/{id}
+PUT    /rooms/{id}
+DELETE /rooms/{id}
+GET    /tenants
+POST   /tenants
+```
+
+Billing service:
+
+```text
+POST   /auth/login
+GET    /dashboard
+GET    /invoices
+POST   /invoices
+PUT    /invoices/{id}/pay
+GET    /payments/history
+```
 
 ## Demo Account
 
@@ -54,78 +95,3 @@ Database design and sample rows are documented in `docs/database-design.md`.
 username: admin
 password: 123456
 ```
-
-## API
-
-```text
-POST   /auth/login
-
-GET    /rooms
-POST   /rooms
-GET    /rooms/{id}
-PUT    /rooms/{id}
-DELETE /rooms/{id}
-GET    /rooms/occupied
-
-GET    /tenants
-POST   /tenants
-GET    /tenants/{id}
-PUT    /tenants/{id}
-DELETE /tenants/{id}
-
-GET    /invoices
-POST   /invoices
-GET    /invoices/unpaid
-PUT    /invoices/{id}/pay
-GET    /payments/history
-
-GET    /dashboard
-```
-
-## Demo Flow
-
-1. Login with `admin / 123456`.
-2. View room list.
-3. Create a new room.
-4. Add a tenant to an available room.
-5. Create a monthly invoice.
-6. View unpaid invoices.
-7. Pay an invoice.
-8. View dashboard revenue.
-
-## Seed Data
-
-Rooms:
-
-- A101, 2,500,000 VND, 20m2, occupied
-- A102, 2,300,000 VND, 18m2, available
-- B201, 3,000,000 VND, 25m2, occupied
-
-Tenants:
-
-- Nguyen Van An
-- Tran Thi Binh
-
-Invoices:
-
-- 05/2026 unpaid invoice
-- 04/2026 paid invoice
-
-How to run
-Bước 1: Khởi động Database (MySQL)
-
-Mở terminal ở thư mục gốc của project (nơi chứa docker-compose.yml).
-Chạy: docker-compose up -d
-Bước 2: Chạy Backend (Java/Micronaut)
-
-Vẫn ở thư mục gốc, chạy lệnh:
-Trên Windows: gradlew.bat run
-Trên Mac/Linux: ./gradlew run
-Bước 3: Chạy Frontend (Vite)
-
-Mở một terminal mới, di chuyển vào thư mục frontend: cd frontend
-Cài đặt các thư viện: npm install
-Chạy giao diện: npm run dev
-=======
-# MotelManager
->>>>>>> 73fdcf1fb37b1d75c52081eb79a4d7624c1d37d7
